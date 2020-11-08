@@ -2,14 +2,16 @@
 
 ## Usersテーブル
 
-| Column        | Type    | Options      |
-| --------------| ------- | -------------|
-| name          | string  | null: false  |
-| name_reading  | string  | null: false  |
-| nickname      | string  | null: false  |
-| birthday      | string  | null: false  |
-| mail_address  | string  | null: false  |
-| password      | string  | null: false  |
+| Column              | Type    | Options      |
+| ------------------  | ------- | -------------|
+| last_name           | string  | null: false  |
+| last_name_reading   | string  | null: false  |
+| first_name          | string  | null: false  |
+| first_name_reading  | string  | null: false  |
+| nickname            | string  | null: false  |
+| birthday            | date    | null: false  |
+| email               | string  | null: false  |
+| encrypted_password  | string  | null: false  |
 
 ### Association
 
@@ -19,31 +21,21 @@
 
 ##Itemsテーブル
 
-| Column        | Type     | Options      |
-| --------------| -------- | -------------|
-| item_image    | text     | null: false  |
-| item_name     | string   | null: false  |
-| item_text     | string   | null: false  |
-| price         | integer  | null: false  |
+| Column           | Type         | Options      |
+| -----------------| ------------ | -------------|
+| name             | string       | null: false  |
+| text             | string       | null: false  |
+| price            | integer      | null: false  |
+| category         | integer      | null: false  |
+| status           | integer      | null: false  |
+| shipping_charge  | integer      | null: false  |
+| shipping_area    | integer      | null: false  |
+| shipping_date    | integer      | null: false  |
 
 ### Association
 
-- belongs_to :users
-- has_many   :orders
-
-##Statusテーブル
-
-| Column           | Type         | Options                         |
-| --------------   | ------------ | --------------------------------|
-| category         | integer      | null: false                     |
-| shipping_charge  | integer      | null: false                     |
-| shipping_area    | integer      | null: false                     |
-| shipping_date    | integer      | null: false                     |
-| item             | references   | null: false, foreign_key: true  |
-
-### Association
-
-- belongs_to :items
+- belongs_to :user
+- has_one    :orders
 
 
 ##Ordersテーブル
@@ -55,8 +47,8 @@
 
 ### Association
 
-- belongs_to :users
-- belongs_to :items
+- belongs_to :user
+- belongs_to :item
 
 ##Addressテーブル
 
@@ -71,4 +63,4 @@
 
 ### Association
 
-- belongs_to :orders
+- belongs_to :order
