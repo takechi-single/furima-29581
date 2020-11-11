@@ -1,7 +1,15 @@
 class ApplicationController < ActionController::Base
+  before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :basic_auth
 
-  private
+  protected
+
+  def configure_permitted_parameters
+    
+    devise_parameter_sanitizer.permit(
+      :sign_up, keys: [:nickname, :password_confirmation, :birthday, :last_name, :first_name, :last_name_reading, :first_name_reading]
+    )
+  end
 
   def basic_auth
     authenticate_or_request_with_http_basic do |username, password|
