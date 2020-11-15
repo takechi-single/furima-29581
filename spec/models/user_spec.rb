@@ -29,7 +29,7 @@ RSpec.describe User, type: :model do
     it 'メールアドレスに@が含まれていないと保存できないこと' do
       @user.email = 'kokocom'
       @user.valid?
-      expect(@user.errors.full_messages).to include("Email is invalid")
+      expect(@user.errors.full_messages).to include('Email is invalid')
     end
     it 'パスワードが空だと保存できないこと' do
       @user.password = nil
@@ -37,7 +37,7 @@ RSpec.describe User, type: :model do
       expect(@user.errors.full_messages).to include("Password can't be blank")
     end
     it 'パスワードは半角数字だと保存できないこと' do
-      @user.password = '００００'
+      @user.password = '000000'
       @user.valid?
       expect(@user.errors.full_messages).to include('Password Include letters and numbers')
     end
@@ -68,6 +68,16 @@ RSpec.describe User, type: :model do
       @user.first_name = nil
       @user.valid?
       expect(@user.errors.full_messages).to include("First name can't be blank")
+    end
+    it 'ユーザーの名字は半角では登録できないこと' do
+      @user.last_name = 'ﾓｼﾞ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include('Last name Input full-width characters.')
+    end
+    it 'ユーザーの名前は半角では登録できないこと' do
+      @user.first_name = 'ﾓｼﾞ'
+      @user.valid?
+      expect(@user.errors.full_messages).to include('First name Input full-width characters.')
     end
     it 'ユーザーの名字（カナ）入力が必要であること' do
       @user.last_name_reading = nil
