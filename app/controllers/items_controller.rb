@@ -1,4 +1,7 @@
 class ItemsController < ApplicationController
+  before_action :authenticate_user!, expect:[:index]
+
+
   def index
   end
 
@@ -7,8 +10,14 @@ class ItemsController < ApplicationController
   end
 
   def create
-    Item.create(item_params)
-    Item.save
+    
+    @item = Item.create(item_params)
+    if @item.valid?
+      @item.save
+      redirect_to action: :index
+    else
+      render action: :new
+    end
   end
 
   def show
@@ -22,7 +31,7 @@ class ItemsController < ApplicationController
   private
   
   def item_params
-    params.require(:item).permit(:name, :text, :price).merge(user_id: current_user.id)
+    params.require(:item).permit(:name, :text, :price, :image, :category_id, :status_id, :shipping_charge_id, :shipping_area_id, :shipping_date_id).merge(user_id: current_user.id)
   end
 
 end
