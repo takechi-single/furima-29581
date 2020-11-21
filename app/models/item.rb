@@ -5,10 +5,12 @@ class Item < ApplicationRecord
   with_options presence: true do
     validates :name 
     validates :text
-    validates :price, numericality: { only_integer: true, message: "is invalid. Input half-width characters." }
+    validates :price, numericality: { only_integer: true, message: "is invalid. Input half-width characters" }
+    validates :image
   end
-  validates :price, numericality: { greater_than_or_equal_to: 3, less_than_or_equal_to: 9999999, message: "is out of setting range"}
 
+  validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999, message: "is out of setting range"}
+  
   with_options numericality: { other_than: 0 } do
   validates :shipping_area_id
   validates :shipping_charge_id
@@ -25,4 +27,6 @@ class Item < ApplicationRecord
   belongs_to :shipping_charge, optional: true
   belongs_to :shipping_area, optional: true
   belongs_to :shipping_date, optional: true
+
+  
 end
