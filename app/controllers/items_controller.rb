@@ -10,12 +10,13 @@ class ItemsController < ApplicationController
   end
 
   def create
+    
     @item = Item.new(item_params)
     if @item.valid?
       @item.save
       redirect_to action: :index
     else
-      render action: :new
+      render action: :new, alert: @item.errors.full_messages
     end
   end
 
