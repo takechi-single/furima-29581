@@ -45,6 +45,31 @@ RSpec.describe Item, type: :model do
       @item.valid?
       expect(@item.errors.full_messages).to include('Shipping date is not a number')
     end
+    it '商品の説明は「"---"」を選択すると出品できないこと' do
+      @item.status_id = 0
+      @item.valid?
+      expect(@item.errors.full_messages).to include('Status must be other than 0')
+    end
+    it 'カテゴリーは「"---"」を選択すると出品できないこと' do
+      @item.category_id = 0
+      @item.valid?
+      expect(@item.errors.full_messages).to include('Category must be other than 0')
+    end
+    it '配送料の負担は「"---"」を選択すると出品できないこと' do
+      @item.shipping_charge_id = 0
+      @item.valid?
+      expect(@item.errors.full_messages).to include('Shipping charge must be other than 0')
+    end
+    it '発送元の地域は「"---"」を選択すると出品できないこと' do
+      @item.shipping_area_id = 0
+      @item.valid?
+      expect(@item.errors.full_messages).to include('Shipping area must be other than 0')
+    end
+    it '発送までの日数は「"---"」を選択すると出品できないこと' do
+      @item.shipping_date_id = 0
+      @item.valid?
+      expect(@item.errors.full_messages).to include('Shipping date must be other than 0')
+    end
     it '販売価格を入力しなければ出品できないこと' do
       @item.price = nil
       @item.valid?
@@ -52,6 +77,11 @@ RSpec.describe Item, type: :model do
     end
     it '販売価格は（¥300~¥9,999,999）の間でなければ出品できないこと' do
       @item.price = 200
+      @item.valid?
+      expect(@item.errors.full_messages).to include('Price is out of setting range')
+    end
+    it '販売価格は（¥10,000,000）超えると出品できないこと' do
+      @item.price = 10_000_000
       @item.valid?
       expect(@item.errors.full_messages).to include('Price is out of setting range')
     end
