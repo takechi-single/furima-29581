@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit]
 
   def index
-    @items = Item.all.order('created_at DESC').limit(3)
+    @items = Item.includes(:user).order('created_at DESC').limit(3)
   end
 
   def new
@@ -24,6 +24,10 @@ class ItemsController < ApplicationController
   end
 
   def edit
+  end
+
+  def destroy
+    @item = Item.find(params[:id])
   end
 
   private
