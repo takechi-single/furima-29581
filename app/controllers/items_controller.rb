@@ -24,6 +24,17 @@ class ItemsController < ApplicationController
   end
 
   def edit
+    @item = Item.find(params[:id])
+  end
+
+  def update
+    @item = Item.find(params[:id])
+    @item.update(item_params)
+    if @item.valid?
+      redirect_to action: :index
+    else
+      render action: :edit, alert: @item.errors.full_messages
+    end
   end
 
   # def destroy
