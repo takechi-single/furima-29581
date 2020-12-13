@@ -8,5 +8,4 @@ window.addEventListener('load', () => {
     addProfit.innerHTML = Math.ceil(inputValue * 0.9);
   })
   
-  
 });
