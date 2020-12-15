@@ -5,12 +5,12 @@ class OrderAddress
   with_options presence: true do
     validates :postal_code, format: {with: /\A[0-9]{3}-[0-9]{4}\z/, message: "is invalid. Include hyphen(-)"}
     validates :city, format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "is invalid. Input full-width characters."}
-    validates :house_number
-    validates :phone_number, format: {with: /\A[0-9]+\z/ , message: "is invalid."}
+    validates :house_number, format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "is invalid. Input full-width characters."}
+    validates :phone_number, format: {with: /\A[0-9]+\z/ , only_integer: true, message: 'is invalid. Input half-width characters'}
     validates :token
   end
   
-  validates :shipping_area_id, numericality: { other_than: 0, message: "can't be blank" }
+  validates :shipping_area_id, numericality: { other_than: 0 }
 
   def save
     order = Order.create(user_id: user_id, item_id: item_id)
