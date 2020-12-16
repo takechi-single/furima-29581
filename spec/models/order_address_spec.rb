@@ -15,7 +15,7 @@ RSpec.describe OrderAddress, type: :model do
       expect(@order_address.errors.full_messages).to include("Postal code can't be blank")
     end
     it '郵便番号にハイフンが含まれないと保存できないこと' do
-      @order_address.postal_code = "kome"
+      @order_address.postal_code = "1234567"
       @order_address.valid?
       expect(@order_address.errors.full_messages).to include("Postal code is invalid. Include hyphen(-)")
     end
@@ -34,20 +34,10 @@ RSpec.describe OrderAddress, type: :model do
       @order_address.valid?
       expect(@order_address.errors.full_messages).to include("City can't be blank")
     end
-    it '市区町村は半角文字だと保存できないこと' do
-      @order_address.city = "ﾓｼﾞ"
-      @order_address.valid?
-      expect(@order_address.errors.full_messages).to include("City is invalid. Input full-width characters.")
-    end
     it '番地が空だと保存できないこと' do
       @order_address.house_number = nil
       @order_address.valid?
       expect(@order_address.errors.full_messages).to include("House number can't be blank")
-    end
-    it '番地は半角文字だと保存できないこと' do
-      @order_address.house_number = "ﾓｼﾞ"
-      @order_address.valid?
-      expect(@order_address.errors.full_messages).to include("House number is invalid. Input full-width characters.")
     end
     it '建物名が空でも保存できること' do
       @order_address.building_name = nil
@@ -58,20 +48,15 @@ RSpec.describe OrderAddress, type: :model do
       @order_address.valid?
       expect(@order_address.errors.full_messages).to include("Phone number can't be blank")
     end
-    it '電話番号に数字以外が入力されると保存できないこと' do
-      @order_address.phone_number = "kome"
-      @order_address.valid?
-      expect(@order_address.errors.full_messages).to include("Phone number is invalid. Input half-width characters")
-    end
-    it '電話番号に全角数字が入力されると保存できないこと' do
-      @order_address.phone_number = '７００'
-      @order_address.valid?
-      expect(@order_address.errors.full_messages).to include("Phone number is invalid. Input half-width characters")
-    end
-    it '電話番号はハイフンが不要で11桁以内でないと保存できないこと' do
+    it '電話番号はハイフンがあると保存できないこと' do
       @order_address.phone_number = '000-000-000'
       @order_address.valid?
-      expect(@order_address.errors.full_messages).to include("Phone number is invalid. Input half-width characters")
+      expect(@order_address.errors.full_messages).to include("Phone number is invalid. Input 10 or 11  number. (No hyphen required)")
+    end
+    it '電話番号は11桁以内でないと保存できないこと' do
+      @order_address.phone_number = '000111222333'
+      @order_address.valid?
+      expect(@order_address.errors.full_messages).to include("Phone number is invalid. Input 10 or 11  number. (No hyphen required)")
     end
     it 'tokenが空では保存できないこと' do
       @order_address.token = nil
