@@ -3,12 +3,11 @@ class OrdersController < ApplicationController
   before_action :set_item, only: [:index, :create]
   before_action :set_confirm, only: [:index, :create]
   before_action :sold_back, only: [:index, :create]
-  
 
   def index
     @order_address = OrderAddress.new
   end
-  
+
   def create
     @order_address = OrderAddress.new(order_params)
     if @order_address.valid?
@@ -35,18 +34,15 @@ class OrdersController < ApplicationController
   end
 
   def sold_back
-    redirect_to root_path if @item.order != nil
+    redirect_to root_path unless @item.order.nil?
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
-      amount: @item.price,  
-      card: order_params[:token],    
-      currency: 'jpy'                 
+      amount: @item.price,
+      card: order_params[:token],
+      currency: 'jpy'
     )
   end
-
-  
-
 end
