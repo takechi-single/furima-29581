@@ -9,9 +9,7 @@ class OrdersController < ApplicationController
   end
   
   def create
-    #binding.pry
     @order_address = OrderAddress.new(order_params)
-    @item = Item.find(params[:item_id])
     if @order_address.valid?
       pay_item
       @order_address.save
@@ -33,9 +31,6 @@ class OrdersController < ApplicationController
 
   def set_confirm
     redirect_to root_path if current_user.id == @item.user_id
-  end
-  def signed_out
-    redirect_to new_user_session_path if user_signed_out?
   end
 
   def pay_item
