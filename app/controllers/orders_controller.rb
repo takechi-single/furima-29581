@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
   before_action :set_item, only: [:index, :create]
   before_action :set_confirm, only: [:index, :create]
+  before_action :sold_back, only: [:index, :create]
   
 
   def index
@@ -31,6 +32,10 @@ class OrdersController < ApplicationController
 
   def set_confirm
     redirect_to root_path if current_user.id == @item.user_id
+  end
+
+  def sold_back
+    redirect_to root_path if @item.order != nil
   end
 
   def pay_item
