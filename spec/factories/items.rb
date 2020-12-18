@@ -9,6 +9,7 @@ FactoryBot.define do
     shipping_charge_id { 1 }
     status_id { 1 }
     category_id { 1 }
+    user_id { 1 }
     association :user
 
     after(:build) do |item|

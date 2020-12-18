@@ -19,7 +19,7 @@ class Item < ApplicationRecord
   end
 
   belongs_to :user, optional: true
-  has_one :order, dependent: :destroy
+  has_one :order
   has_one_attached :image
   belongs_to_active_hash :category, optional: true
   belongs_to_active_hash :status, optional: true
